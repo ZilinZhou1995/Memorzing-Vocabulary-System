@@ -1,0 +1,44 @@
+<div ng-controller="createStudySetCtrl">
+    <div class="ui container fluid">
+        <div class="ui form" >
+            <div class="field ">
+                <h2 class="ui header">Title</h2>
+                <input type="text" ng-model="studySets_title" class="inputText" style="width: 40em">
+            </div>
+
+            <div class="ui horizontal divider" style="margin-top: 4em">Content</div>
+
+            <div data-ng-repeat="term in study_sets" class="field segment ui">
+                <div class="ui container">
+                    <div class="ui grid">
+                        <div class="one wide column">
+                            <label class="formLabel" style="vertical-align: middle; align-content: center">{{$index+1}}</label>
+                        </div>
+
+                        <div class="thirteen wide column">
+                            <div class="two fields">
+                                <div class="field">
+                                    <input type="text" ng-model="term.termName" class="inputText" style="width: 26em">
+                                    <label>Term</label>
+                                </div>
+                                <div class="field">
+                                    <input type="text" ng-model="term.meaning" class="inputText" style="width: 28em">
+                                    <label>Meaning</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="two wide column">
+                            <div class="ui tiny button negative" ng-click="removeTerm($index)">Delete</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="position: relative;top: 1em;left: 25em !important;" class="ui button primary" ng-click="addNewTerm()">Add a new term</div>
+        <div style="position: relative;top: 1em;left: 25em !important;" class="ui button primary" ng-click="create_studySets()">Create</div>
+        <!--<div>{{study_sets}}</div>-->
+    </div>
+</div>

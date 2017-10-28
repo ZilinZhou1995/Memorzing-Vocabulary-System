@@ -1,0 +1,44 @@
+<div ng-controller="userInfoCtrl">
+    <div class="ui container fluid">
+        <h1 class="ui header">Good Evening, {{currentUser.Username}}</h1>
+        <div class="ui horizontal divider">Your Group</div>
+        <div class="container">
+            <a class="ui blue image label">
+                <img src="../images/Sam.png">
+                Human Biology
+                <div class="detail">Member</div>
+            </a>
+            <a class="ui teal image label">
+                <img src="../images/Sam.png">
+                Elementary Psychology
+                <div class="detail">Member</div>
+            </a>
+            <a class="ui yellow image label">
+                <img src="../images/Sam.png">
+                Object Oriented Programming
+                <div class="detail">Owner</div>
+            </a>
+        </div>
+        <div class="ui horizontal divider">Study sets(Sort by importance)</div>
+
+        <div class="ui grid">
+            <div class="container ui segment fourteen wide column " data-ng-repeat="set in userInfo_studySets">
+
+                    <a class="ui orange right ribbon label">{{set.reviewCount}}</a>
+                    <span class="ui header" ng-click="navToSingle($index)">
+                        <a ui-sref="singleStudySet">
+                            {{set.title}}
+                        </a>
+                    </span>
+                    <span class=""><i class="icon ui trash middle"></i></span>
+
+                    <div class="ui button primary right tiny" ng-click="studySets_review()">Reviewed</div>
+                    <div class="ui container" ng-repeat="term in set.study_sets">
+                        <div class="ui column segment" style="margin-top: 3px">{{term.termName}}/{{term.meaning}}</div>
+                    </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

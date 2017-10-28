@@ -1,0 +1,16 @@
+<div ng-controller="studySetCtrl" ng-init="initSingleStudySet()">
+    <div class="ui container fluid">
+        <h1 class="ui header">{{single_studySet.title}}</h1>
+
+        <div class="ui grid">
+            <div class="ui fifteen wide column row segment" style="margin: 10px" ng-repeat="term in single_studySet.study_sets">
+                <div class="ui grid">
+                    <div class="eight wide column">{{term.termName}}</div>
+                    <div class="eight wide column">{{term.meaning}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

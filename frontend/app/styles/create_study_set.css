@@ -1,0 +1,25 @@
+.inputText {
+    border-top: 0px !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
+    border-radius: 0px !important;
+}
+
+.two-fields .field label{
+    color: dimgrey !important;
+}
+
+.two-fields .field{
+    background-color: beige !important;
+}
+
+.formLabel {
+    position: absolute;
+    top:1em !important;
+    left: 1.2em !important;
+    font-size: 2em !important;
+}
+
+.create_table_cell {
+    background-color: gainsboro;
+}

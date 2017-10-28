@@ -1,0 +1,12 @@
+{
+  "IMAGE_ROOT": "/pics",
+  "user_signin": "/user/signin",
+  "user_login": "/user/login",
+  "user_get": "/user/get",
+  "studysets_create": "/studysets/create",
+  "studysets_delete": "/studysets/delete",
+  "studysets_review": "/studysets/review",
+  "team_create": "/team/create",
+  "team_add": "/team/add",
+  "team_delete": "/ team/delete"
+}

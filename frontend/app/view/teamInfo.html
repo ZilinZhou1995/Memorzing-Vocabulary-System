@@ -1,0 +1,110 @@
+<div ng-controller="teamInfoCtrl">
+    <div class="ui container fluid">
+        <h1 class="ui header">{{currentUser.Username}}' team</h1>
+
+        <!--Bug: we should replace here with actual data-->
+        <div class="ui grid">
+            <div class="ui fifteen wide column row segment" style="margin: 10px" >
+                <div class="ui grid">
+                    <div class="eight wide column">
+                        <label class="ui ribbon purple label">
+                            Elementary Psychology
+                        </label>
+                       Small Team
+                    </div>
+                    <div class="eight wide column">
+                        <a class="ui image label">
+                        <img src="../images/Sam.png">
+                        Joe
+                    </a>
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Elliot
+                        </a>
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Stevie
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui grid">
+            <div class="ui fifteen wide column row segment" style="margin: 10px" >
+                <div class="ui grid">
+                    <div class="eight wide column">
+                        <label class="ui ribbon red label">
+                            Human Biology
+                        </label>
+                        Small Team
+                    </div>
+                    <div class="eight wide column">
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Joe
+                        </a>
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Elliot
+                        </a>
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Stevie
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui grid">
+            <div class="ui fifteen wide column row segment" style="margin: 10px" >
+                <div class="ui grid">
+                    <div class="eight wide column">
+                        <label class="ui ribbon blue label">
+                            Objected Oriented Programming
+                        </label>
+                        Small Team
+                    </div>
+                    <div class="eight wide column">
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Joe
+                        </a>
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Elliot
+                        </a>
+                        <a class="ui image label">
+                            <img src="../images/Sam.png">
+                            Stevie
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ui button primary" style="position:relative; top: 1em;" ng-click="create_team()">Create a new team</div>
+    </div>
+
+    <!--team create modal-->
+    <div class="ui modal" id="teamCreate">
+        <div class="header">teamCreate</div>
+        <div class="content">
+            <form class="ui form error">
+                <div class="field">
+                    <label>Team Name </label>
+                    <input type="text" ng-model="teamName" name="teamName" placeholder="team name" required>
+                </div>
+                <div class="field">
+                    <label>Team description</label>
+                    <textarea name="teamDescription" placeholder="team description" ng-model="teamDescription" required></textarea>
+                </div>
+
+
+                <button class="ui button" type="submit" ng-click="team_new()">Create</button>
+            </form>
+        </div>
+    </div>
+
+
+</div>

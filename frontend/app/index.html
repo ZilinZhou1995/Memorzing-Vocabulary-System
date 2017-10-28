@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <link rel="stylesheet" type="text/css" href="styles/semantic/dist/semantic.css">
+    <link rel="stylesheet" type="text/css" href="styles/index.css">
+    <link rel="stylesheet" type="text/css" href="styles/teamInfo.css">
+    <link rel="stylesheet" type="text/css" href="styles/userInfo.css">
+    <link rel="stylesheet" type="text/css" href="styles/create_study_set.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+</head>
+
+
+<body ng-app="ChallengerApp" ng-controller="indexCtrl">
+
+<div class="ui fluid container" style="background-color: white">
+    <!--header menu here-->
+        <div class="container fluid">
+            <div class="myheader main ui sixteen wide column masthead fixed">
+                <div class="ui secondary menu ">
+                    <a class="item" style="font-size: 25px;" ui-sref="index" >
+                        Memorize
+                    </a>
+                    <a class="item" >
+                        <i class="fa fa-search" aria-hidden="true"></i>Search
+                    </a >
+
+                    <a class="item" ui-sref="create">
+                        <i class="fa fa-plus" aria-hidden="true"></i>Create
+                    </a>
+                    <a class="item right" ng-show="isLogin" ui-sref="userInfo">
+                        <img class="ui avatar image" src="images/Sam.png">
+                        <div class="">
+                            <div class="">{{currentUser.Username}}</div>
+                            <!--Top Contributor-->
+                        </div>
+                        <div class="ui dropdown" id="userpanel">
+                            <i style="margin-left:8px" class="dropdown icon" aria-hidden="true"></i>
+                            <div class="menu" style=" right: 4px !important; left: auto !important; bottom: auto !important; top: 20px !important;">
+                                <div class="item" ui-sref="userInfo">
+                                    Your Study Set
+                                </div>
+                                <div class="item" ng-click="logout()">
+                                    Log out
+                                </div>
+                            </div>
+                        </div>
+
+                    </a>
+
+                    <div class="item right" ng-show="!isLogin" style="padding: 0">
+                        <div >
+                            <div class="ui button" ng-click="showLoginModal()">Log in</div>
+                            <div class="ui primary button" ng-click="showSignupModal()">Sign Up</div>
+                        </div>
+                    </div>
+
+
+                    <!--Sign up modal-->
+                    <div class="ui modal" id="signup">
+                        <div class="header">Sign in</div>
+                        <div class="content">
+                            <form class="ui form error" name="signup">
+                                <div class="field">
+                                    <label>Username </label>
+                                    <input type="text" ng-model="username" name="username" placeholder="username" required>
+                                    <div class="ui message error " id="signinError3" style="display: none;">Name duplicated!</div>
+                                </div>
+                                <div class="field">
+                                    <label>e-mail</label>
+                                    <input type="email" name="email" placeholder="email address" ng-model="email" required>
+                                    <!--<div role="alert">-->
+                                        <!--<div class="ui message error " ng-show="signup.email.$error.required">Required!</div>-->
+                                        <!--<div class="ui message error " ng-show="signup.email.$error.email">Not valid email!</div>-->
+                                    <!--</div>-->
+                                </div>
+
+                                <div class="field">
+                                    <label>Password </label>
+                                    <input type="password" name="password" id="password" ng-model="password" placeholder="password">
+                                </div>
+
+                                <div class="field">
+                                    <label>Retype Password </label>
+                                    <input type="password" id="retype_password" name="retype_password" ng-model="retype_password" placeholder="repeat your password" required pw-check="password">
+                                    <div ng-show="signup.retype_password.$error">
+                                        <div class="ui message error small header " ng-show="signup.retype_password.$error.pwmatch">Not the same</div>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="ui checkbox">
+                                        <input type="checkbox" tabindex="0" class="hidden">
+                                        <label>I agree to the Terms and Conditions</label>
+                                    </div>
+                                </div>
+                                <button class="ui button" type="submit" ng-click="usersignin()">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <!--login in modal-->
+                    <div class="ui modal inverted" id="login">
+                        <div class="header">Log in</div>
+                        <div class="content">
+                            <form class="ui form error">
+                                <div class="field">
+                                    <label>Name</label>
+                                    <input type="text" name="loginname" ng-model="loginname" placeholder="login name">
+                                    <div class="ui message error" id="loginError3" style="display: none">User not existed.</div>
+                                    <div class="ui message error" id="loginError4" style="display: none">Password not match.</div>
+
+                                </div>
+                                <div class="field">
+                                    <label>Password</label>
+                                    <input type="password" name="loginpassword" ng-model="loginpassword" placeholder="login password">
+                                </div>
+                                <div class="ui button" ng-click="userlogin()">Log in</div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    <!--body here-->
+    <div class="ui grid">
+        <div class="main-body row">
+            <!--left side menu bar-->
+            <div class="four wide column" ng-show="isshowLeftMenus">
+                <div class="main-body-left">
+                    <div class="ui secondary middle vertical menu ">
+                        <a class="item">
+                            <i class="fa fa-camera-retro"></i> Latest Activity
+                        </a>
+                        <a class="item" ui-sref="userInfo">
+                            <i class="fa fa-folder" aria-hidden="true"></i>Your Study Sets
+                        </a>
+
+                        <a class="item" ui-sref="teamInfo">
+                            <i class="fa fa-users" aria-hidden="true"></i>Your Groups
+                        </a>
+                        <div class="ui dropdown item">
+                            <i class="dropdown icon"></i>
+                            <i class="fa fa-cogs" aria-hidden="true"></i>Settings
+                            <div class="menu">
+                                <div class="header">Text Size</div>
+                                <a class="item">Small</a>
+                                <a class="item">Medium</a>
+                                <a class="item">Large</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui header small"> Your Group</div>
+                    <div class="main-body-left-group">
+                        <div class="ui relaxed divided list">
+                            <div class="item">
+                                <i class="middle users middle aligned icon"></i>
+                                <div class="content">
+                                    <a class="middle header">Elementary Pschology</a>
+                                    <div class="description">Updated 10 mins ago</div>
+                            </div>
+                            </div>
+                            <div class="item">
+                                <i class="middle users middle aligned icon"></i>
+                                <div class="content">
+                                    <a class="header">Objected oriented programming</a>
+                                    <div class="description">Updated 22 mins ago</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class=" users middle aligned icon"></i>
+                                <div class="content">
+                                    <a class="header">Human biology</a>
+                                    <div class="description">Updated 34 mins ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="ui header small"> Your Folders</div>
+                    <div class="main-body-left-group">
+                        <div class="ui list">
+                            <div class="item">
+                                <i class="folder icon"></i>
+                                <div class="content">
+                                    <div class="header">src</div>
+                                    <div class="description">Source files for project</div>
+                                    <div class="list">
+                                        <div class="item">
+                                            <i class="folder icon"></i>
+                                            <div class="content">
+                                                <div class="header">site</div>
+                                                <div class="description">Your site's theme</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-class="{'twelve wide ': isshowLeftMenus}" class="column main-body-feedflow">
+                <ui-view></ui-view>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+        <div class="ui grid" style="margin-top: 2em;">
+            <!--footer here-->
+            <div class="push">
+                <div class="ui inverted vertical footer segment">
+                    <div class="ui container">
+                        <div class="ui stackable inverted divided equal height stackable grid">
+                            <div class="three wide column">
+                                <h4 class="ui inverted header">About</h4>
+                                <div class="ui inverted link list">
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">Sitemap</a>
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">Contact Us</a>
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">Religious Ceremonies</a>
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">Gazebo Plans</a>
+                                </div>
+                            </div>
+                            <div class="three wide column">
+                                <h4 class="ui inverted header">Services</h4>
+                                <div class="ui inverted link list">
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">Banana Pre-Order</a>
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">DNA FAQ</a>
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">How To Access</a>
+                                    <a href="https://semantic-ui.com/examples/homepage.html#" class="item">Favorite X-Men</a>
+                                </div>
+                            </div>
+                            <div class="seven wide column">
+                                <h4 class="ui inverted header">Footer Header</h4>
+                                <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+</div><!--End of ui fluid container-->
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+
+
+<!--bower components-->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+
+
+
+
+
+<!--load from backend-->
+<script src="/static/lodash/lodash.js"></script>
+
+
+<!--directives-->
+<script src="scripts/directives/common.js"></script>
+
+<!--service and scripts-->
+<script src="scripts/config.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/router.js"></script>
+<script src="scripts/services/page_title_service.js"></script>
+<script src="scripts/services/user_service.js"></script>
+<script src="scripts/services/team_service.js"></script>
+<script src="scripts/services/studysets_service.js"></script>
+<script src="styles/semantic/dist/semantic.js"></script>
+<!--controllers-->
+<script src="scripts/controllers/index.js"></script>
+<script src="scripts/controllers/feed.js"></script>
+<script src="scripts/controllers/studySet.js"></script>
+<script src="scripts/controllers/create_study_set.js"></script>
+<script src="scripts/controllers/userInfo.js"></script>
+<script src="scripts/controllers/teamInfo.js"></script>
+
+
+
+
+
+
+<script>
+    $(document)
+        .ready(function() {
+
+            // fix main menu to page on passing
+            $('nav').visibility({
+                type: 'fixed'
+            });
+
+            $('.ui.dropdown')
+                .dropdown()
+            ;
+
+            $('.ui.checkbox')
+                .checkbox()
+            ;
+
+            $('.ui.modal')
+                .modal({
+                    inverted: true
+                });
+
+            // fix menu when passed
+            $('.masthead')
+                .visibility({
+                    once: false,
+                    onBottomPassed: function() {
+                        $('.fixed.menu').transition('fade in');
+                    },
+                    onBottomPassedReverse: function() {
+                        $('.fixed.menu').transition('fade out');
+                    }
+                })
+            ;
+        });
+</script>
+
+</body>
+</html>
